@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7LXHS2PFB5"></script>
@@ -7,25 +7,20 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-7LXHS2PFB5');
   </script>
   
   <meta charset="utf-8">
-  <meta name="description"
-        content="OTSeg: Multi-prompt Sinkhorn Attention for Zero-Shot Semantic Segmentation">
+  <meta name="description" content="PLADIS: Pushing the Limits of Attention in Diffusion Models at Inference Time by Leveraging Sparsity">
   <meta name="keywords" content="Zero-Shot, Optimal Transprot">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> OTSeg: Multi-prompt Sinkhorn Attention for Zero-Shot Semantic Segmentation</title>
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-
+  <title>PLADIS: Pushing the Limits of Attention in Diffusion Models at Inference Time by Leveraging Sparsity</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./fig/otseg2.png">
 
@@ -34,328 +29,466 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  
+  <style>
+    /* Citation 영역의 pre 태그 스타일 재정의 */
+    .citation pre {
+      margin: 0;
+      padding: 10px;
+      background-color: #f9f9f9;
+      white-space: pre-wrap; /* 긴 줄이 자동 줄바꿈 */
+      border-left: 3px solid #f44336;
+      font-family: Consolas, monospace;
+    }
+    /* footer 및 Citation 영역의 정렬 맞춤 */
+    footer, .citation {
+      text-align: left;
+      margin: 20px 0;
+    }
+    /* 이미지 크기 조절 */
+    .figure0 {
+      max-width: 1000px;
+      width: 120%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+    .figure2 {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
 </head>
 <body>
-
-<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <!-- <div class="navbar-menu"> -->
-    <!-- <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://sites.google.com/view/kwanyoung-kim/?pli=1">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a> -->
-
-      <!-- <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://github.com/cubeyoung/TA-VAAL">
-            TA-VAAL (CVPR 2021)
-          </a>          
-          <a class="navbar-item" href="https://arxiv.org/pdf/2106.07009.pdf">
-            Noise2Score (NeurIPS 2021)
-          </a>
-          <a class="navbar-item" href="https://arxiv.org/abs/2112.03696">
-            NoiseAdap2Score (CVPR 2022)
-          </a>          
-          <a class="navbar-item" href="https://arxiv.org/abs/2104.05892">
-            AdaINSeg (ECCV 2022)
-          </a>          
-          <a class="navbar-item" href="https://arxiv.org/pdf/2209.14566.pdf">
-            DARL (ICLR 2023)
-          </a>
-        </div> -->
-      <!-- </div>
-    </div> -->
-<!-- 
-  </div>
-</nav> --> -->
-
-
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">OTSeg: Multi-prompt Sinkhorn Attention for Zero-Shot Semantic Segmentation</h1>
-          <div class="is-size-4 publication-authors">
-            <span class="author-block">
-              <a href="https://sites.google.com/view/kwanyoung-kim/?pli=1">Kwanyoung Kim</a><sup>1*</sup>,</span>
-            <span class="author-block">
-              <a href="https://www.linkedin.com/in/yujin-oh-971137104/">Yujin Oh</a><sup>2*</sup>,</span>
-            <span class="author-block">
-              <a href="https://bispl.weebly.com/">Jong Chul Ye</a><sup>1</sup>,
-            </span>
-            <!-- <span class="author-block">
-              Anonymous Authors</span> -->
-          </div>
-          <div class="is-size-5 publication-authors">            
-            <span class="author-block"><sup>1</sup>Graduate School of AI, KAIST,</span> <sup>2</sup>Harvard Medical School & MGH
-          </div>
-          <div class="is-size-5 publication-authors">            
-            <span class="author-block"><sup>*</sup>Equal contribution</span>
-          </div>
-
+  <!-- 상단 Hero 영역 -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
           <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2403.14183"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
+            <h1 class="title is-1 publication-title">
+              PLADIS: Pushing the Limits of Attention in Diffusion Models at Inference Time by Leveraging Sparsity
+            </h1>
+            <div class="is-size-4 publication-authors">
+              <span class="author-block">
+                <a href="https://sites.google.com/view/kwanyoung-kim/?pli=1">Kwanyoung Kim</a><sup>*</sup>,
+              </span>
+              <span class="author-block">Byeongsu Sim</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Samsung Research</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>*</sup>First and Corresponding Author</span>
+            </div>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2503.07677" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
                       <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2403.14183"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/cubeyoung/OTSeg"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/cubeyoung/PLADIS" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
                       <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
+                    </span>
+                    <span>Code</span>
                   </a>
-              </span>
-              <span class="link-block">
-                <a href="https://www.linkedin.com/in/kwanyoung-kim-2a39b41b3/"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
+                </span>
+                <span class="link-block">
+                  <a href="https://www.linkedin.com/in/kwanyoung-kim-2a39b41b3/" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
                       <i class="fab fa-linkedin"></i>
-                  </span>
-                  <span>Linkedin</span>
+                    </span>
+                    <span>Linkedin</span>
                   </a>
-              </span>
-
-            </div>
-            <div class="is-size-3 publication-authors">            
-              <span class="author-block"><span style="color:#33CAFF;font-weight:bold;">ECCV 2024</span></span> 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- main Figure. -->
-    <div class="column">
-        <h2 class="title is-3"></h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <img src="./fig/score.png" 
-            class="figure1"
-            alt="figure1_image."/>
-            <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
-            <source src="./fig/Vi"
-                    type="video/mp4">
-            </video>                  -->
-          </div>
-        </div>
-    </div>
-    <!--/ main Figure. -->    
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            The recent success of CLIP has demonstrated promising results in zero-shot semantic segmentation by transferring muiltimodal knowledge to pixel-level classification. 
-            However, leveraging pre-trained CLIP knowledge to closely align text embeddings with pixel embeddings still has limitations in existing approaches. 
-            To address this issue, we propose <span style="color:#33CAFF;font-weight:bold;">OTSeg</span>, a novel multimodal attention mechanism aimed at enhancing the potential of multiple text prompts for matching associated pixel embeddings. 
-            We first propose <span style="color:#33CAFF;font-weight:bold;"> Multi-Prompts Sinkhorn (MPS) based on the Optimal Transport (OT) algorithm</span>, which leads multiple text prompts to selectively focus on various semantic features within image pixels. 
-            Moreover, inspired by the success of Sinkformers in unimodal settings, we introduce the extension of MPS, called <span style="color:#33CAFF;font-weight:bold;"> Multi-Prompts Sinkhorn Attention (MPSA) </span> , which effectively replaces cross-attention mechanisms within Transformer framework in multimodal settings. Through extensive experiments, we demonstrate that OTSeg achieves state-of-the-art (SOTA) performance with significant gains on Zero-Shot Semantic Segmentation (ZS3) tasks across three benchmark datasets.    
-            
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-      <!-- Effectiveness of ZegOT. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Overview of OTSeg for zero-shot semantic segmentation</h2>
-          <p>
-            (a) MPS path refines the score map using the <span style="color:#33CAFF;font-weight:bold;"> MPS</span> algorithm.
-            (b) Decoder path involves the decoder output, which integrates the the <span style="color:#33CAFF;font-weight:bold;">Multi-Prompts Sinkhorn Attention (MPSA) </span>predictions.
-            (c) During inference, OTSeg ensembles predictions from both paths with a balancing factor lambda.
-           </p>
-          <img src="./fig/main.jpg" vspace = 10 
-          class="figure1"
-          alt="figure1_image."/>
-        </div>
-      </div>
-      <!--/ Effectiveness of ZegOT. -->
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-      <!-- Effectiveness of ZegOT. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Effectiveness of OTSeg</h2>
-          <p>
-            While all the text prompt-related score maps are cohered without MPSA (white arrows), with MPSA within our proposed OTSeg+, each Score map is diversely activated
-            (red arrows) to help the model segment each object sharply. The  <span style="background-color:yellow;font-weight:bold;">yellow</span> tag indicates seen classes, while the <span style="background-color:#33FF39;font-weight:bold;">green </span> tag indicates unseen classes.            
-          </p>
-          <img src="./fig/score_sup.jpg" vspace = 10 
-          class="figure1"
-          alt="figure1_image."/>
-        </div>
-      </div>
-      <!--/ Effectiveness of ZegOT. -->
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Multi Prompt OT Solver (MPOT) -->
-      <div class="column">
-        <h2 class="title is-3">Introduce a Novel Attention Mechanism</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              (a) Cross-attention mechanism for multimodal settings. (b) Sinkformer self-attention mechanism for unimodal settings. (c) Our proposed Muti-Prompt Sinkhorn Attention (MPSA) for multimodal settings, which aims to optimally transport image pixel (M) to multiple text prompts (N).
-              Our proposed MPSA <span style="color:#33CAFF;font-weight:bold;">integrated as plugin module in each transformer layer, and achieve optimal matching between multiple text embedding and pixel embedding </span>.
-            </p>            
-            <img src="./fig/OT-attention.png" vspace = 10 
-            class="figure1"
-            alt="figure1_image."/>
-          </div>
-        </div>
-      </div>
-  </div>
-</section>
-<section class="section">
-  <div class="container is-max-desktop">
-      <h2 class="title is-3">Quantitative Result of OTSeg</h2>
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="columns is-centered">
-          <div class="column content">      
-              <img src="./fig/table.png"
-              class="score_map"
-              alt="score_map_image."/>
-          </div>
-        </div>
-      </div>          
-</section>
-<section class="section">
-    <div class="container is-max-desktop">
-        <h2 class="title is-3">Qualitative Result of OTSeg</h2>
-        <!-- Visual Effects. -->
-        <div class="column">
-          <div class="columns is-centered">
-            <div class="column content">
-                <p>
-                  The <span style="background-color:yellow;font-weight:bold;">yellow</span> tag indicates seen classes, while the
-                  <span style="background-color:#33FF39;font-weight:bold;">green </span> tag indicates unseen classes. Our OTSeg segmentes semantic objectex most accurately of both seen and unseen objects compare to previous SOTA methods. 
-                </p>            
-                <img src="./fig/main_result.jpg"
-                class="score_map"
-                alt="score_map_image."/>
-            </div>
-          </div>
-        </div>        
-        <!--/ Visual Effects. -->
-        <div class="column">
-            <div class="columns is-centered">
-              <div class="column content">     
-                  <img src="./fig/supple.png"
-                  class="segment_results"
-                  alt="segment_reults_image."/>
+                </span>
               </div>
             </div>
-        </div> 
-    </div>       
-</section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Main Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Main Figure -->
+      <div class="column">
+        <div class="columns is-centered">
+          <div class="column content">
+            <img src="./main_1.jpg" class="figure0" alt="main_figure.">
+            <p class="large-text">
+              Qualitative comparison (Top): guidance sampling methods (CFG, PAG, SEG) (Mid): guidance-distilled models
+              (DMD2, SDXL-Lightning, Hyper-SDXL) (Bottom): Other backbone such as Stable Diffusion 1.5 and SANA with
+              our proposed method, <span style="color:#33CAFF;font-weight:bold;">PLADIS(Ours)</span>. PLADIS is compatible with all guidance techniques and also supports guidance-distilled models
+              including various backbone. It provides the generation of plausible and improved text alignment without any training or extra inference.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Abstract -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p class="large-text">
+              Diffusion models have shown impressive results in generating high-quality conditional samples using guidance techniques such as Classifier-Free Guidance (CFG). 
+              However, existing methods often require additional training or neural function evaluations (NFEs), making them incompatible with guidance-distilled models. 
+              Also, they rely on heuristic approaches that need identifying target layers. In this work, we propose a novel and efficient method, termed <span style="color:#33CAFF;font-weight:bold;">PLADIS</span>, which boosts
+              pre-trained models (U-Net/Transformer) by leveraging sparse attention. Specifically, we extrapolate query-key correlations using softmax and its sparse counterpart in the cross-attention layer during inference, 
+              <span style="color:#33CAFF;font-weight:bold;">without requiring extra training or NFEs.</span>
+              By leveraging <span style="color:#33CAFF;font-weight:bold;">the noise robustness of sparse attention</span>, our PLADIS unleashes the latent potential of text-to-image diffusion models,
+              enabling them to excel in areas where they once struggled with newfound effectiveness. 
+              It integrates seamlessly with <span style="color:#33CAFF;font-weight:bold;">guidance techniques, including guidance-distilled models.</span>
+              Extensive experiments show notable improvements in text alignment and human preference, offering a highly efficient and universally applicable solution.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="section">
-  <div class="hero-body">
+  <!-- Concept Overview Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Concept Overview of PLADIS</h2>
+            <p class="large-text">
+              Existing guidance methods require extra inference steps due to undesired paths, such as null conditions or perturbing self-attention with an identity matrix or blurred attention weights.
+              In contrast, PLADIS avoids additional inference paths <span style="color:#33CAFF;font-weight:bold;">by computing both sparse and dense attentions within all cross-attention modules</span> using a scaling factor, λ. 
+              Moreover, PLADIS can be easily <span style="color:#33CAFF;font-weight:bold;">integrated with existing guidance approaches and even guidance-distilled models</span> by simply replacing the cross-attention module.
+            </p>
+            <img src="./concetp_figure.jpg" vspace="10" class="figure1" alt="concept_figure.">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Does PLADIS Work Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Why Does PLADIS Work?</h2>
+            <p class="large-text">
+              Our study reveals that the <span style="color:#33CAFF;font-weight:bold;">Sparse Attention mechanism within diffusion models significantly contributes to noise robustness.</span>
+              In contrast to conventional modern Hopfield Networks, Sparse Hopfield Networks exhibit enhanced resilience to noise. Remarkably, the update rule for Sparse Hopfield energy is mathematically identical to that used in sparse attention.
+              Furthermore, we propose <span style="color:#33CAFF;font-weight:bold;">the retrieval error bound of dynamics for the intermediate case and also introduce the noise robustness of that case.</span>
+            </p>
+            <img src="./noise_robust.png" vspace="10" class="figure2" alt="noise robustness figure.">
+            <p class="large-text">
+              In Text-to-Image diffusion processes, the cross-attention mechanism processes the query, key, and value matrices derived from both noisy images and text prompts. Due to the inherent Gaussian noise corruption during the diffusion process, <span style="color:#33CAFF;font-weight:bold;">the query matrix is naturally perturbed, thereby benefiting from the robustness offered by sparse attention.</span> This advantage leads to improved text alignment and overall sample quality.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Effectiveness of PLADIS Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Effectiveness of PLADIS</h2>
+            <p class="large-text">
+              Qualitative comparison by varying the scale λ. <span style="color:#33CAFF;font-weight:bold;">As the scale λ increases, images represent improved plausibility and enhanced text alignment.</span> But too high a value leads to smoother textures and potential artifacts, similar to those seen in CFG. When λ is greater than
+              0, our PLADIS method is applied. In our configuration, λ is set to 2.0.
+            </p>
+            <img src="./fig_lambda.jpg" vspace="10" class="figure1" alt="lambda figure.">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qualitative Results Sliders Section -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">
+        Qualitative Result of PLADIS for Boosting Guidance Sampling Approaches
+      </h2>
+      <!-- 첫 번째 슬라이더 (CFG, PAG, SEG) -->
+      <div class="slider" id="slider1">
+        <div class="slides" id="slides1">
+          <div class="slide">
+            <img src="./fig_supple_cfg.jpg" alt="CFG">
+            <div class="slide-title">CFG</div>
+          </div>
+          <div class="slide">
+            <img src="./fig_supple_pag.jpg" alt="PAG">
+            <div class="slide-title">PAG</div>
+          </div>
+          <div class="slide">
+            <img src="./fig_supple_seg.jpg" alt="SEG">
+            <div class="slide-title">SEG</div>
+          </div>
+        </div>
+        <button class="nav-button prev" id="prevBtn1">&laquo;</button>
+        <button class="nav-button next" id="nextBtn1">&raquo;</button>
+      </div>
+      <h2 class="title is-3">
+        Qualitative Result of PLADIS for Boosting Guidance-Distilled Models
+      </h2>
+      <!-- 두 번째 슬라이더 -->
+      <div class="slider" id="slider2">
+        <div class="slides" id="slides2">
+          <div class="slide">
+            <img src="./fig_1step.jpg" alt="One Step Sampling">
+            <div class="slide-title">One Step</div>
+          </div>
+          <div class="slide">
+            <img src="./fig_4step.jpg" alt="Four Step Sampling">
+            <div class="slide-title">Four Step</div>
+          </div>
+        </div>
+        <button class="nav-button prev" id="prevBtn2">&laquo;</button>
+        <button class="nav-button next" id="nextBtn2">&raquo;</button>
+      </div>
+      <h2 class="title is-3">
+        Qualitative Result of PLADIS for Other Backbone
+      </h2>
+      <!-- 세 번째 슬라이더 -->
+      <div class="slider" id="slider3">
+        <div class="slides" id="slides3">
+          <div class="slide">
+            <img src="./fig_supple_sd15.jpg" alt="Stable Diffusion 1.5">
+            <div class="slide-title">Stable Diffusion 1.5</div>
+          </div>
+          <div class="slide">
+            <img src="./fig_supple_sana.jpg" alt="SANA">
+            <div class="slide-title">SANA</div>
+          </div>
+        </div>
+        <button class="nav-button prev" id="prevBtn3">&laquo;</button>
+        <button class="nav-button next" id="nextBtn3">&raquo;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Citation Section -->
+  <section>
+    <footer>
+      <h2>Citation</h2>
+      <p>❤️ If you find our work useful in your research, please cite our work! :)</p>
+      <div class="citation">
+<pre>@article{ahn2024selfrectifying,
+    title={Self-Rectifying Diffusion Sampling with Perturbed-Attention Guidance},
+    author={Donghoon Ahn and Hyoungwon Cho and Jaewon Min and Wooseok Jang and Jungwoo Kim and SeonHwa Kim and Hyun Hee Park and Kyong Hwan Jin and Seungryong Kim},
+    journal={arXiv preprint arXiv:2403.17377},
+    year={2024}
+}</pre>
+      </div>
+    </footer>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
     <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <img src="./fig/main_result.jpg" alt="Steve Image" />
-        </div>
-        <div class="item item-chair-tp">
-          <img src="./fig/supple.png" alt="Chair TP Image" />
+      <div class="content has-text-centered">
+        <a class="icon-link external-link" href="https://github.com/cubeyoung" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a 
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                Creative Commons Attribution-ShareAlike 4.0 International License
+              </a>.
+            </p>
+            <p>
+              This means you are free to borrow the 
+              <a href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+              we just ask that you link back to this page in the footer.
+              Please remember to remove the analytics code included in the header of the website if you do not want it on your website.
+            </p>
+          </div>
         </div>
       </div>
     </div>
+  </footer>
+
+  <!-- Visitor Counter -->
+  <div style="text-align: center;">
+    <a href="https://hits.seeyoufarm.com">
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fcubeyoung.github.io%2Fzegot.github.io%2F&count_bg=%233DC8C4&title_bg=%2320AA9F&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false" alt="hits">
+    </a>
   </div>
-</section>
 
+  <!-- 슬라이더 스크립트 -->
+  <script>
+    // 첫 번째 슬라이더 스크립트 (slider1)
+    (function() {
+      const slides = document.getElementById('slides1');
+      const slideElements = slides.querySelectorAll('.slide');
+      const slideCount = slideElements.length;
+      const prevBtn = document.getElementById('prevBtn1');
+      const nextBtn = document.getElementById('nextBtn1');
+      let currentIndex = 0;
+      let startX = 0;
+      let isDragging = false;
 
+      function showSlide(index) {
+        if (index < 0) {
+          currentIndex = slideCount - 1;
+        } else if (index >= slideCount) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+        slides.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+      }
 
-<div style="text-align: center;">
-  <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fcubeyoung.github.io%2Fzegot.github.io%2F&count_bg=%233DC8C4&title_bg=%2320AA9F&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-</div>
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link" href="https://github.com/cubeyoung" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+      prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
 
+      slides.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+      });
+      slides.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+      });
+      slides.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        const diff = e.clientX - startX;
+        if (diff > 50) {
+          showSlide(currentIndex - 1);
+        } else if (diff < -50) {
+          showSlide(currentIndex + 1);
+        }
+        isDragging = false;
+      });
+      slides.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+      slides.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+      });
+    })();
+
+    // 두 번째 슬라이더 스크립트 (slider2)
+    (function() {
+      const slides = document.getElementById('slides2');
+      const slideElements = slides.querySelectorAll('.slide');
+      const slideCount = slideElements.length;
+      const prevBtn = document.getElementById('prevBtn2');
+      const nextBtn = document.getElementById('nextBtn2');
+      let currentIndex = 0;
+      let startX = 0;
+      let isDragging = false;
+
+      function showSlide(index) {
+        if (index < 0) {
+          currentIndex = slideCount - 1;
+        } else if (index >= slideCount) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+        slides.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+      }
+
+      prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+      slides.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+      });
+      slides.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+      });
+      slides.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        const diff = e.clientX - startX;
+        if (diff > 50) {
+          showSlide(currentIndex - 1);
+        } else if (diff < -50) {
+          showSlide(currentIndex + 1);
+        }
+        isDragging = false;
+      });
+      slides.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+      slides.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+      });
+    })();
+
+    // 세 번째 슬라이더 스크립트 (slider3)
+    (function() {
+      const slides = document.getElementById('slides3');
+      const slideElements = slides.querySelectorAll('.slide');
+      const slideCount = slideElements.length;
+      const prevBtn = document.getElementById('prevBtn3');
+      const nextBtn = document.getElementById('nextBtn3');
+      let currentIndex = 0;
+      let startX = 0;
+      let isDragging = false;
+
+      function showSlide(index) {
+        if (index < 0) {
+          currentIndex = slideCount - 1;
+        } else if (index >= slideCount) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+        slides.style.transform = 'translateX(' + (-currentIndex * 100) + '%)';
+      }
+
+      prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+      slides.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+      });
+      slides.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+      });
+      slides.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        const diff = e.clientX - startX;
+        if (diff > 50) {
+          showSlide(currentIndex - 1);
+        } else if (diff < -50) {
+          showSlide(currentIndex + 1);
+        }
+        isDragging = false;
+      });
+      slides.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+      slides.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+      });
+    })();
+  </script>
 </body>
 </html>
